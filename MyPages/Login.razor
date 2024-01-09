@@ -1,0 +1,32 @@
+﻿@page "/login"
+<form>
+<h3>Введите логин и пароль</h3>
+
+<input type="text" placeholder="Введите логин" @bind="login" />
+<input type="text" placeholder="Введите пароль" @bind="password" />
+<p>@Message</p>
+<button @onclick="ButtonClick">Подтвердить</button>
+</form>
+@inject IUserService UserService
+@code {
+    private string Message { get; set; }
+    private string login;
+    private string password;
+    // [Inject]
+    // private YourDbContext DbContext { get; set; }
+    private void ButtonClick()
+    {
+        if (login != null & password != null)
+        {
+            bool userExists = UserService.UserExists(login, password);
+            if (userExists)
+            {
+                Message = "Вход выполнен успешно!";
+            }
+            else
+            {
+                Message = "Неверные учетные данные. Попробуйте снова.";
+            }
+        }
+    }
+}

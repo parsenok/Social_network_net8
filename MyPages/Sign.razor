@@ -1,0 +1,42 @@
+﻿@page "/signUp"
+@using vk.Entities
+@using DB
+<input type="text" placeholder="Введите логин" @bind="login" />
+<input type="text" placeholder="Введите пароль" @bind="password" />
+<input type="text" placeholder="Введите подтвердите пароль" @bind="verif_password" />
+<input type="text" placeholder="Введите Имя" @bind="Name" />
+<input type="text" placeholder="Введите фамилию" @bind="Surname" />
+<input type="text" placeholder="Введите возраст" @bind="age" />
+<button @onclick="ButtonClick">Подтвердить</button>
+<p>@Message</p>
+@inject YourDbContext DbContext
+@code {
+    private string Message { get; set; }
+    private string login { get; set; }
+    private string password { get; set; }
+    private string verif_password { get; set; }
+    private string Name { get; set; }
+    private string Surname { get; set; }
+    private int age { get; set; }
+    // [Inject]
+    // private YourDbContext DbContext;
+    private void ButtonClick()
+    {
+        if (login != null & password != null & verif_password != null & Name != null & Surname != null & age != 0)
+        {
+            if (password == verif_password)
+            {
+                var newUser = new User
+                    {
+                        Login = login,
+                        Password = password,
+                        Name = Name,
+                        Surname = Surname,
+                        Age = age,
+                    };
+                DbContext.Users.Add(newUser);
+                DbContext.SaveChanges();
+            }
+        }
+    }
+}
